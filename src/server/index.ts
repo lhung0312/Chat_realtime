@@ -4,7 +4,9 @@ const express = require("express");
 // const cors = require("cors");
 
 // mongo connection
-import "../config/mongo.ts";
+const connectDB = require('../config/mongo')
+
+connectDB()
 // routes
 const indexRouter = require("../routes/index.ts");
 const userRouter = require("../routes/user.ts");

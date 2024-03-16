@@ -1,24 +1,16 @@
-const mongoose = require("mongoose")
-const config = require('./index.ts')
+const mongoose = require('mongoose')
+require('dotenv').config()
 
 
-const CONNECTION_URL = `mongodb://${config.db.url}/${config.db.name}`
+const connectDB = async () => {
+  try {
+    const conn = await mongoose.connect(process.env.MONGO_URL)
+    console.log('MongoDB has connected succesfully' )
+  } 
+  catch (error) {
+    console.log(error)
+    process.exit(1)
+  }
+}
 
-mongoose.connect(CONNECTION_URL, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
-})
-
-mongoose.connection.on('connected', () => {
-  console.log('Mongo has connected succesfully')
-})
-mongoose.connection.on('reconnected', () => {
-  console.log('Mongo has reconnected')
-})
-mongoose.connection.on('error', (error: any) => {
-  console.log('Mongo connection has an error', error)
-  mongoose.disconnect()
-})
-mongoose.connection.on('disconnected', () => {
-  console.log('Mongo connection is disconnected')
-})
+module.exports = connectDB
